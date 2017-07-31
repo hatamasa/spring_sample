@@ -14,7 +14,6 @@ REVOKE USAGE ON *.* FROM 'SPRING'@'localhost';
 # Œ ŒÀ‚ð”½‰f
 FLUSH PRIVILEGES;
 
-
 --------------------------
 # ƒ†[ƒU‚ðì¬
 CREATE USER SPRING@localhost IDENTIFIED BY 'spring';
