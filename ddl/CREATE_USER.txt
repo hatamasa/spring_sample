@@ -1,0 +1,49 @@
+
+# データベースを確認
+SHOW DATABASES;
+
+# DB切り替え
+USE SPRING_SAMPLE
+
+# ユーザ確認
+SELECT user, host FROM mysql.user;
+
+# 権限削除
+REVOKE USAGE ON *.* FROM 'SPRING'@'localhost';
+
+# 権限を反映
+FLUSH PRIVILEGES;
+
+
+--------------------------
+# ユーザを作成
+CREATE USER SPRING@localhost IDENTIFIED BY 'spring';
+
+# 権限追加
+GRANT ALL ON SPRING_SAMPLE.* TO 'SPRING'@'localhost';
+
+# SSL認証を有効化
+GRANT USAGE ON *.* TO 'SPRING'@'localhost' REQUIRE SSL;
+show variables like '%ssl%';
+
+# 権限を確認
+SHOW GRANTS for 'SPRING'@'localhost';
+
+# SSL通信確認
+(mysql -u SPRING -p --ssl --ssl-ca=C:\Users\hatamasa\ca-cert.pem)
+
+# データベースを作成
+CREATE DATABASE SPRING_SAMPLE;
+
+# テーブルを作成
+CREATE TABLE SPRING_SAMPLE.USER(
+	USER_ID INT(8)  NOT NULL PRIMARY KEY
+	,USER_NAME VARCHAR(20)
+	,SEX VARCHAR(5)
+	,BUMON VARCHAR(20)
+	,INS_DT TIMESTAMP
+);
+
+INSERT INTO SPRING_SAMPLE.USER(USER_ID, USER_NAME, SEX, BUMON) VALUES(00000001, "波多野　雅哉", "男", "流通・システムサービス開発第3部");
+INSERT INTO SPRING_SAMPLE.USER(USER_ID, USER_NAME, SEX, BUMON) VALUES(00000002, "鈴木　一郎", "男", "流通・システムサービス開発第1部");
+INSERT INTO SPRING_SAMPLE.USER(USER_ID, USER_NAME, SEX, BUMON) VALUES(00000003, "佐々木　花子", "女", "流通・システムサービス開発第2部");

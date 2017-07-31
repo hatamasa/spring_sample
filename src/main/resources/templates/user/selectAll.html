@@ -1,0 +1,29 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<link href="/css/application.css" th:href="@{/css/application.css}"
+	rel="stylesheet"></link>
+<div th:replace="_header ::replace"></div>
+<body>
+	<h1>selectAll</h1>
+	<table>
+		<thead>
+			<tr>
+				<th>#</th>
+				<th>部署</th>
+				<th>ユーザ名</th>
+				<th>性別</th>
+				<th>登録日時</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr th:each="user : ${userList}">
+				<td th:text="${user.userId}"></td>
+				<td th:text="${user.bumon}"></td>
+				<td th:text="${user.userName}"></td>
+				<td th:text="${user.sex}"></td>
+				<td th:text="${user.insDt}"></td>
+			</tr>
+		</tbody>
+	</table>
+</body>
+</html>
