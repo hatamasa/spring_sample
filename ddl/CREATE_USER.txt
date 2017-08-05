@@ -1,48 +1,48 @@
 
-# ƒf[ƒ^ƒx[ƒX‚ðŠm”F
+# ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã‚’ç¢ºèª
 SHOW DATABASES;
 
-# DBØ‚è‘Ö‚¦
+# DBåˆ‡ã‚Šæ›¿ãˆ
 USE SPRING_SAMPLE
 
-# ƒ†[ƒUŠm”F
+# ãƒ¦ãƒ¼ã‚¶ç¢ºèª
 SELECT user, host FROM mysql.user;
 
-# Œ ŒÀíœ
+# æ¨©é™å‰Šé™¤
 REVOKE USAGE ON *.* FROM 'SPRING'@'localhost';
 
-# Œ ŒÀ‚ð”½‰f
+# æ¨©é™ã‚’åæ˜ 
 FLUSH PRIVILEGES;
 
 --------------------------
-# ƒ†[ƒU‚ðì¬
+# ãƒ¦ãƒ¼ã‚¶ã‚’ä½œæˆ
 CREATE USER SPRING@localhost IDENTIFIED BY 'spring';
 
-# Œ ŒÀ’Ç‰Á
+# æ¨©é™è¿½åŠ 
 GRANT ALL ON SPRING_SAMPLE.* TO 'SPRING'@'localhost';
 
-# SSL”FØ‚ð—LŒø‰»
+# SSLèªè¨¼ã‚’æœ‰åŠ¹åŒ–
 GRANT USAGE ON *.* TO 'SPRING'@'localhost' REQUIRE SSL;
 show variables like '%ssl%';
 
-# Œ ŒÀ‚ðŠm”F
+# æ¨©é™ã‚’ç¢ºèª
 SHOW GRANTS for 'SPRING'@'localhost';
 
-# SSL’ÊMŠm”F
+# SSLé€šä¿¡ç¢ºèª
 (mysql -u SPRING -p --ssl --ssl-ca=C:\Users\hatamasa\ca-cert.pem)
 
-# ƒf[ƒ^ƒx[ƒX‚ðì¬
+# ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã‚’ä½œæˆ
 CREATE DATABASE SPRING_SAMPLE;
 
-# ƒe[ƒuƒ‹‚ðì¬
+# ãƒ†ãƒ¼ãƒ–ãƒ«ã‚’ä½œæˆ
 CREATE TABLE SPRING_SAMPLE.USER(
-	USER_ID INT(8)  NOT NULL PRIMARY KEY
+	USER_ID INT AUTO_INCREMENT NOT NULL PRIMARY KEY
 	,USER_NAME VARCHAR(20)
 	,SEX VARCHAR(5)
 	,BUMON VARCHAR(20)
 	,INS_DT TIMESTAMP
 );
 
-INSERT INTO SPRING_SAMPLE.USER(USER_ID, USER_NAME, SEX, BUMON) VALUES(00000001, "”g‘½–ì@‰ëÆ", "’j", "—¬’ÊEƒVƒXƒeƒ€ƒT[ƒrƒXŠJ”­‘æ3•”");
-INSERT INTO SPRING_SAMPLE.USER(USER_ID, USER_NAME, SEX, BUMON) VALUES(00000002, "—é–Ø@ˆê˜Y", "’j", "—¬’ÊEƒVƒXƒeƒ€ƒT[ƒrƒXŠJ”­‘æ1•”");
-INSERT INTO SPRING_SAMPLE.USER(USER_ID, USER_NAME, SEX, BUMON) VALUES(00000003, "²X–Ø@‰ÔŽq", "—", "—¬’ÊEƒVƒXƒeƒ€ƒT[ƒrƒXŠJ”­‘æ2•”");
+INSERT INTO SPRING_SAMPLE.USER(USER_ID, USER_NAME, SEX, BUMON) VALUES(00000001, "æ³¢å¤šé‡Žã€€é›…å“‰", "ç”·", "æµé€šãƒ»ã‚·ã‚¹ãƒ†ãƒ ã‚µãƒ¼ãƒ“ã‚¹é–‹ç™ºç¬¬3éƒ¨");
+INSERT INTO SPRING_SAMPLE.USER(USER_ID, USER_NAME, SEX, BUMON) VALUES(00000002, "éˆ´æœ¨ã€€ä¸€éƒŽ", "ç”·", "æµé€šãƒ»ã‚·ã‚¹ãƒ†ãƒ ã‚µãƒ¼ãƒ“ã‚¹é–‹ç™ºç¬¬1éƒ¨");
+INSERT INTO SPRING_SAMPLE.USER(USER_ID, USER_NAME, SEX, BUMON) VALUES(00000003, "ä½ã€…æœ¨ã€€èŠ±å­", "å¥³", "æµé€šãƒ»ã‚·ã‚¹ãƒ†ãƒ ã‚µãƒ¼ãƒ“ã‚¹é–‹ç™ºç¬¬2éƒ¨");

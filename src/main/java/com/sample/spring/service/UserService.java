@@ -21,4 +21,10 @@ public class UserService {
 		return repository.findAll(new Sort(Sort.Direction.ASC, "userId"));
 	}
 
+	public void insert(List<User> userList) {
+		for (User user : userList) {
+			repository.save(user);
+		}
+	}
+
 }

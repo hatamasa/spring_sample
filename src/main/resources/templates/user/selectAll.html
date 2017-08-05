@@ -25,5 +25,14 @@
 			</tr>
 		</tbody>
 	</table>
+	<table>
+		<tbody>
+			<tr th:each="list : ${inputList}">
+				<th:block th:each="val : ${list}">
+					<td th:text="${val}"></td>
+				</th:block>
+			</tr>
+		</tbody>
+	</table>
 </body>
 </html>
