@@ -1,10 +1,5 @@
 package com.sample.spring.controller;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.sample.spring.entity.User;
 import com.sample.spring.properties.CsvProperties;
@@ -28,18 +23,18 @@ public class UserController {
 	@Autowired
 	private CsvProperties properties;
 
-	@RequestMapping(value = "/selectAll", method = RequestMethod.GET)
+	@RequestMapping(value = "/selectAll")
 	public String selectAll(Model model) {
 		String filePath = properties.getInputPath() + "\\" + properties.getUser();
-		model.addAttribute("inputList", csvReader(filePath));
+		model.addAttribute("inputList", service.csvReader(filePath));
 		model.addAttribute("userList", service.selectAll());
 		return "user/selectAll";
 	}
 
-	@RequestMapping(value = "/insert", method = RequestMethod.POST)
+	@RequestMapping(value = "/insert")
 	public String insert(Model model) {
 		String filePath = properties.getInputPath() + "\\" + properties.getUser();
-		List<String[]> list = csvReader(filePath);
+		List<String[]> list = service.csvReader(filePath);
 		ArrayList<User> userList = new ArrayList<User>();
 		for (String[] strings : list) {
 			User user = new User();
@@ -47,30 +42,23 @@ public class UserController {
 			user.setUserName(strings[1]);
 			user.setSex(strings[2]);
 			userList.add(user);
-			}
-			service.insert(userList);
-		return "user/selectAll";
+		}
+		service.insert(userList);
+		service.renameFile(filePath);
+		return "redirect:http://localhost:8080/user/selectAll";
 	}
 
-	/*
-	 * csvを読み込みリストを返却する
-	 */
-	private List<String[]> csvReader(String filePath) {
-		ArrayList<String[]> list = new ArrayList<String[]>();
-		try {
-			// ファイルを読み込む
-			File file = new File(filePath);
-			BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(file)));
-			String line;
-			while ((line = br.readLine()) != null) {
-				String[] lineList = line.split(",");
-				list.add(lineList);
-			}
-			br.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return list;
+	@RequestMapping(value = "/outPutCsv")
+	public String outPutCsv(Model model) {
+		// 出力処理を実装
+
+		return "redirect:http://localhost:8080/user/selectAll";
+	}
+
+	@RequestMapping(value = "/DeleteUser")
+	public String deleteUser(Model model, @RequestParam int userId) {
+		service.delete(userId);
+		return "redirect:http://localhost:8080/user/selectAll";
 	}
 
 }

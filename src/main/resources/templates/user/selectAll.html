@@ -1,11 +1,13 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
-<link href="/css/application.css" th:href="@{/css/application.css}"
-	rel="stylesheet"></link>
+<link href="/css/applicationCss.css"
+	th:href="@{/css/applicationCss.css}" rel="stylesheet"></link>
+<script src="/js/applicationJs.js" th:src="@{/js/applicationJs.js}"></script>
 <div th:replace="_header ::replace"></div>
 <body>
-	<h1>selectAll</h1>
-	<table>
+	<h1>登録済みユーザ</h1>
+	<p th:if="${#lists.isEmpty(userList)}">表示するユーザーがありません。</p>
+	<table th:unless="${#lists.isEmpty(userList)}">
 		<thead>
 			<tr>
 				<th>#</th>
@@ -13,6 +15,7 @@
 				<th>ユーザ名</th>
 				<th>性別</th>
 				<th>登録日時</th>
+				<th></th>
 			</tr>
 		</thead>
 		<tbody>
@@ -22,10 +25,23 @@
 				<td th:text="${user.userName}"></td>
 				<td th:text="${user.sex}"></td>
 				<td th:text="${user.insDt}"></td>
+				<td><a href="#"
+					th:attr="onclick='DeleteUser(' + ${user.userId} + ');'">削除</a></td>
 			</tr>
 		</tbody>
 	</table>
-	<table>
+	<input type="button" value="CSV出力" onClick="OutPutCsvApart()" th:unless="${#lists.isEmpty(userList)}"></input>
+	<hr></hr>
+	<h1>登録可能ユーザ</h1>
+	<p th:if="${#lists.isEmpty(inputList)}">表示するユーザーがありません。（所定の場所にファイルを配置してください）</p>
+	<table th:unless="${#lists.isEmpty(inputList)}">
+		<thead>
+			<tr>
+				<th>部署</th>
+				<th>ユーザ名</th>
+				<th>性別</th>
+			</tr>
+		</thead>
 		<tbody>
 			<tr th:each="list : ${inputList}">
 				<th:block th:each="val : ${list}">
@@ -34,5 +50,6 @@
 			</tr>
 		</tbody>
 	</table>
+	<input type="button" value="全件登録" onClick="ConfirmAndSubmit()" th:unless="${#lists.isEmpty(inputList)}"></input>
 </body>
 </html>

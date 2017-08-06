@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 public class CsvProperties {
 
 	private String inputPath;
+	private String inputBakPath;
 	private String outputPath;
 	private String user;
 
@@ -33,6 +34,14 @@ public class CsvProperties {
 
 	public void setUser(String user) {
 		this.user = user;
+	}
+
+	public String getInputBakPath() {
+		return inputBakPath;
+	}
+
+	public void setInputBakPath(String inputBakPath) {
+		this.inputBakPath = inputBakPath;
 	}
 
 }
