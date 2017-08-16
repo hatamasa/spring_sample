@@ -1,0 +1,10 @@
+<?xml version='1.0' encoding="UTF-8"?>
+<!DOCTYPE dataset SYSTEM "../tables.dtd">
+<dataset>
+	<user USER_ID="1" USER_NAME="宮元　武蔵" SEX="男" BUMON="流通・システムサービス開発第1部"
+		INS_DT="2017-08-09 11:11:11.000000000" />
+	<user USER_ID="2" USER_NAME="佐藤　次郎" SEX="男" BUMON="流通・システムサービス開発第2部"
+		INS_DT="2017-08-09 11:11:11.000000000" />
+	<user USER_ID="3" USER_NAME="山田　花子" SEX="女" BUMON="流通・システムサービス開発第3部"
+		INS_DT="2017-08-09 11:11:11.000000000" />
+</dataset>

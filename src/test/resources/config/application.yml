@@ -1,0 +1,6 @@
+spring:
+  datasource:
+      url: jdbc:mysql://localhost:3306/SPRING_TEST
+      username: TEST
+      password: test
+      driverClassName: com.mysql.jdbc.Driver

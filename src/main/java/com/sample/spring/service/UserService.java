@@ -1,14 +1,21 @@
 package com.sample.spring.service;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map.Entry;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
@@ -60,13 +67,57 @@ public class UserService {
 	}
 
 	/*
+	 * csvを出力する
+	 */
+	public void csvOutPut(String fileRootPath) {
+		List<User> userList = userRepository.findAll();
+		HashMap<String, String> bumonMap = new HashMap<String, String>();
+		// 部門を抽出する
+		for(User user:userList){
+			bumonMap.put(user.getBumon(), user.getBumon());
+		}
+		String bumon = null;
+		String filePath = null;
+		BufferedWriter bw = null;
+		// 部門ごとにCSVを出力する
+		for(Entry<String, String> entry :bumonMap.entrySet()){
+			bumon = entry.getValue();
+			filePath = fileRootPath + bumon + nowDate() + ".csv";
+			try {
+				bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(new File(filePath)), "Windows-31J"));
+				for(User user:userList){
+					if(user.getBumon().equals(bumon)){
+						bw.write(user.getUserId() + "," + user.getBumon() + "," + user.getUserName() + "," + user.getSex());
+						bw.write("\r\n");
+					}
+				}
+				bw.close();
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
+	/*
 	 * file をバックアップする
 	 */
 	public void renameFile(String fromFilePath) {
 		File toFile = new File(fromFilePath);
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
-		String toFilePath = fromFilePath + "." + sdf.format(new Date());
+
+		String toFilePath = fromFilePath + "." + nowDate();
 		toFile.renameTo(new File(toFilePath));
+	}
+
+	/*
+	 * 現在日付を返却出力する
+	 */
+	private String nowDate(){
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
+		 return sdf.format(new Date());
 	}
 
 }

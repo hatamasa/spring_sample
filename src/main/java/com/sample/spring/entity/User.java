@@ -1,14 +1,14 @@
 package com.sample.spring.entity;
 
 import java.io.Serializable;
-import java.sql.Timestamp;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.NamedQuery;
+import javax.persistence.Table;
+
 
 
 /**
@@ -16,8 +16,9 @@ import javax.persistence.NamedQuery;
  *
  */
 @Entity
-@NamedQuery(name="User.findAll", query="SELECT u FROM User u")
-public class User implements Serializable {
+@Table(name = "user")
+//@NamedQuery(name="User.findAll", query="SELECT u FROM User u")
+public class User extends AbstractEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -33,9 +34,6 @@ public class User implements Serializable {
 
 	@Column(name="SEX")
 	private String sex;
-
-	@Column(name="INS_DT")
-	private Timestamp insDt;
 
 	public User() {
 	}
@@ -71,13 +69,4 @@ public class User implements Serializable {
 	public void setSex(String sex) {
 		this.sex = sex;
 	}
-
-	public Timestamp getInsDt() {
-		return insDt;
-	}
-
-	public void setInsDt(Timestamp insDt) {
-		this.insDt = insDt;
-	}
-
 }

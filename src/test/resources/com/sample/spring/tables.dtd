@@ -1,0 +1,20 @@
+<!ELEMENT dataset (
+    sequence*,
+    user*)>
+
+<!ELEMENT sequence EMPTY>
+<!ATTLIST sequence
+    name CDATA #REQUIRED
+    current_value CDATA #REQUIRED
+    increment CDATA #IMPLIED
+>
+
+<!ELEMENT user EMPTY>
+<!ATTLIST user
+    USER_ID CDATA #REQUIRED
+    USER_NAME CDATA #IMPLIED
+    SEX CDATA #IMPLIED
+    BUMON CDATA #IMPLIED
+    INS_DT CDATA #IMPLIED
+>
+

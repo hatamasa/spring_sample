@@ -1,0 +1,53 @@
+
+# データベースを確認
+SHOW DATABASES;
+
+# DB切り替え
+USE SPRING_TEST
+
+# ユーザ確認
+SELECT user, host FROM mysql.user;
+
+# 権限削除
+REVOKE USAGE ON *.* FROM 'SPRING'@'localhost';
+
+# 権限を反映
+FLUSH PRIVILEGES;
+
+--------------------------
+
+# データベースを作成
+CREATE DATABASE SPRING_TEST;
+
+# ユーザを作成
+CREATE USER TEST@localhost IDENTIFIED BY 'test';
+
+# 権限追加
+GRANT ALL ON SPRING_TEST.* TO 'TEST'@'localhost';
+
+# SSL認証を有効化（未使用）
+GRANT USAGE ON *.* TO 'TEST'@'localhost' REQUIRE SSL;
+show variables like '%ssl%';
+
+# 権限を確認
+SHOW GRANTS for 'TEST'@'localhost';
+
+# SSL通信確認（未使用）
+(mysql -u TEST -p --ssl --ssl-ca=C:\Users\hatamasa\ca-cert.pem)
+
+# テーブルを作成
+CREATE TABLE SPRING_TEST.USER(
+	USER_ID INT NOT NULL AUTO_INCREMENT PRIMARY KEY
+	,USER_NAME VARCHAR(20)
+	,SEX VARCHAR(5)
+	,BUMON VARCHAR(20)
+	,INS_DT TIMESTAMP
+);
+
+# シーケンス作成（未使用）
+INSERT INTO sequence VALUES ('USER_SEQ', 0, 1);
+
+# ユーザ登録
+INSERT INTO SPRING_TEST.USER(USER_ID, USER_NAME, SEX, BUMON) VALUES((SELECT nextval("USER_SEQ")), "波多野　雅哉", "男", "流通・システムサービス開発第3部");
+INSERT INTO SPRING_TEST.USER(USER_ID, USER_NAME, SEX, BUMON) VALUES((SELECT nextval("USER_SEQ")), "鈴木　一郎", "男", "流通・システムサービス開発第1部");
+INSERT INTO SPRING_TEST.USER(USER_ID, USER_NAME, SEX, BUMON) VALUES((SELECT nextval("USER_SEQ")), "佐々木　花子", "女", "流通・システムサービス開発第2部");

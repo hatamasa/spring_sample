@@ -27,7 +27,8 @@ public class UserController {
 	public String selectAll(Model model) {
 		String filePath = properties.getInputPath() + "\\" + properties.getUser();
 		model.addAttribute("inputList", service.csvReader(filePath));
-		model.addAttribute("userList", service.selectAll());
+		List<User> list = service.selectAll();
+		model.addAttribute("userList", list);
 		return "user/selectAll";
 	}
 
@@ -45,20 +46,21 @@ public class UserController {
 		}
 		service.insert(userList);
 		service.renameFile(filePath);
-		return "redirect:http://localhost:8080/user/selectAll";
+		return "forward:selectAll";
 	}
 
 	@RequestMapping(value = "/outPutCsv")
 	public String outPutCsv(Model model) {
+		String fileOutputRootPath = properties.getOutputPath() + "\\";
 		// 出力処理を実装
-
-		return "redirect:http://localhost:8080/user/selectAll";
+		service.csvOutPut(fileOutputRootPath);
+		return "forward:selectAll";
 	}
 
 	@RequestMapping(value = "/DeleteUser")
 	public String deleteUser(Model model, @RequestParam int userId) {
 		service.delete(userId);
-		return "redirect:http://localhost:8080/user/selectAll";
+		return "forward:selectAll";
 	}
 
 }

@@ -15,6 +15,10 @@ REVOKE USAGE ON *.* FROM 'SPRING'@'localhost';
 FLUSH PRIVILEGES;
 
 --------------------------
+
+# データベースを作成
+CREATE DATABASE SPRING_SAMPLE;
+
 # ユーザを作成
 CREATE USER SPRING@localhost IDENTIFIED BY 'spring';
 
@@ -30,9 +34,6 @@ SHOW GRANTS for 'SPRING'@'localhost';
 
 # SSL通信確認（未使用）
 (mysql -u SPRING -p --ssl --ssl-ca=C:\Users\hatamasa\ca-cert.pem)
-
-# データベースを作成
-CREATE DATABASE SPRING_SAMPLE;
 
 # テーブルを作成
 CREATE TABLE SPRING_SAMPLE.USER(
