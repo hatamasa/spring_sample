@@ -23,19 +23,23 @@ public class UserController {
 	@Autowired
 	private CsvProperties properties;
 
-	@RequestMapping(value = "/selectAll")
+	@RequestMapping(value = "/userList")
 	public String selectAll(Model model) {
-		String filePath = properties.getInputPath() + "\\" + properties.getUser();
-		model.addAttribute("inputList", service.csvReader(filePath));
-		List<User> list = service.selectAll();
-		model.addAttribute("userList", list);
-		return "user/selectAll";
+		// userFilePath配下にあるcsvファイルの中身を表示する
+		String userCsvPath = properties.getInputPath() + "\\" + properties.getUser();
+		List<String[]> userFileList = service.csvToStringList(userCsvPath);
+		model.addAttribute("userFileList", userFileList);
+
+		// userテーブルのユーザを表示する
+		List<User> userList = service.selectAllUsers();
+		model.addAttribute("userList", userList);
+		return "user/userList";
 	}
 
 	@RequestMapping(value = "/insert")
 	public String insert(Model model) {
 		String filePath = properties.getInputPath() + "\\" + properties.getUser();
-		List<String[]> list = service.csvReader(filePath);
+		List<String[]> list = service.csvToStringList(filePath);
 		ArrayList<User> userList = new ArrayList<User>();
 		for (String[] strings : list) {
 			User user = new User();
@@ -46,7 +50,7 @@ public class UserController {
 		}
 		service.insert(userList);
 		service.renameFile(filePath);
-		return "forward:selectAll";
+		return "forward:userList";
 	}
 
 	@RequestMapping(value = "/outPutCsv")
@@ -54,13 +58,13 @@ public class UserController {
 		String fileOutputRootPath = properties.getOutputPath() + "\\";
 		// 出力処理を実装
 		service.csvOutPut(fileOutputRootPath);
-		return "forward:selectAll";
+		return "forward:userList";
 	}
 
 	@RequestMapping(value = "/DeleteUser")
 	public String deleteUser(Model model, @RequestParam int userId) {
 		service.delete(userId);
-		return "forward:selectAll";
+		return "forward:userList";
 	}
 
 }

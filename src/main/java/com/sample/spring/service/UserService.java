@@ -32,7 +32,7 @@ public class UserService {
 	@Autowired
 	UserRepository userRepository;
 
-	public List<User> selectAll() {
+	public List<User> selectAllUsers() {
 		return userRepository.findAll(new Sort(Sort.Direction.ASC, "userId"));
 	}
 
@@ -45,19 +45,20 @@ public class UserService {
 	}
 
 	/*
-	 * csvを読み込みリストを返却する
+	 * csvを読み込み、リストで返却する
+	 * 注意：区切り文字は「,」のファイルであること
 	 */
-	public List<String[]> csvReader(String filePath) {
+	public List<String[]> csvToStringList(String filePath) {
 		ArrayList<String[]> list = new ArrayList<String[]>();
 		try {
-			// ファイルを読み込む
+			// filePath配下のcsvを読み込む
 			File file = new File(filePath);
 			InputStreamReader inputStreamReader = new InputStreamReader(new FileInputStream(file), "SJIS");
 			BufferedReader br = new BufferedReader(inputStreamReader);
 			String line;
 			while ((line = br.readLine()) != null) {
-				String[] lineList = line.split(",");
-				list.add(lineList);
+				String[] tmpList = line.split(",");
+				list.add(tmpList);
 			}
 			br.close();
 		} catch (IOException e) {

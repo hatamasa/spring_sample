@@ -33,8 +33,8 @@
 	<input type="button" value="CSV出力" onClick="OutPutCsvApart()" th:unless="${#lists.isEmpty(userList)}"></input>
 	<hr></hr>
 	<h1>登録可能ユーザ</h1>
-	<p th:if="${#lists.isEmpty(inputList)}">表示するユーザーがありません。（所定の場所にファイルを配置してください）</p>
-	<table th:unless="${#lists.isEmpty(inputList)}">
+	<p th:if="${#lists.isEmpty(userFileList)}">表示するユーザーがありません。（所定の場所にファイルを配置してください）</p>
+	<table th:unless="${#lists.isEmpty(userFileList)}">
 		<thead>
 			<tr>
 				<th>部署</th>
@@ -43,13 +43,13 @@
 			</tr>
 		</thead>
 		<tbody>
-			<tr th:each="list : ${inputList}">
+			<tr th:each="list : ${userFileList}">
 				<th:block th:each="val : ${list}">
 					<td th:text="${val}"></td>
 				</th:block>
 			</tr>
 		</tbody>
 	</table>
-	<input type="button" value="全件登録" onClick="ConfirmAndSubmit()" th:unless="${#lists.isEmpty(inputList)}"></input>
+	<input type="button" value="全件登録" onClick="ConfirmAndSubmit()" th:unless="${#lists.isEmpty(userFileList)}"></input>
 </body>
 </html>
