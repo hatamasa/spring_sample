@@ -40,24 +40,18 @@ public class UserController {
 	public String insert(Model model) {
 		String filePath = properties.getInputPath() + "\\" + properties.getUser();
 		List<String[]> list = service.csvToStringList(filePath);
-		ArrayList<User> userList = new ArrayList<User>();
-		for (String[] strings : list) {
-			User user = new User();
-			user.setBumon(strings[0]);
-			user.setUserName(strings[1]);
-			user.setSex(strings[2]);
-			userList.add(user);
-		}
+		List<User> userList = addUserList(list);
+
 		service.insert(userList);
 		service.renameFile(filePath);
 		return "forward:userList";
 	}
 
-	@RequestMapping(value = "/outPutCsv")
-	public String outPutCsv(Model model) {
+	@RequestMapping(value = "/exportCsv")
+	public String exportCsv(Model model) {
 		String fileOutputRootPath = properties.getOutputPath() + "\\";
 		// 出力処理を実装
-		service.csvOutPut(fileOutputRootPath);
+		service.exportUserCsvEachBumon(fileOutputRootPath);
 		return "forward:userList";
 	}
 
@@ -65,6 +59,18 @@ public class UserController {
 	public String deleteUser(Model model, @RequestParam int userId) {
 		service.delete(userId);
 		return "forward:userList";
+	}
+
+	private List<User> addUserList(List<String[]> list) {
+		List<User> userList = new ArrayList<User>();
+		for (String[] strings : list) {
+			User user = new User();
+			user.setBumon(strings[0]);
+			user.setUserName(strings[1]);
+			user.setSex(strings[2]);
+			userList.add(user);
+		}
+		return userList;
 	}
 
 }

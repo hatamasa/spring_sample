@@ -68,24 +68,23 @@ public class UserService {
 	}
 
 	/*
-	 * csvを出力する
+	 * dbのユーザを部門ごとのcsvに出力する
 	 */
-	public void csvOutPut(String fileRootPath) {
+	public void exportUserCsvEachBumon(String fileRootPath) {
 		List<User> userList = userRepository.findAll();
-		HashMap<String, String> bumonMap = new HashMap<String, String>();
+
 		// 部門を抽出する
-		for(User user:userList){
-			bumonMap.put(user.getBumon(), user.getBumon());
-		}
+		HashMap<String, String> bumonMap = createBumonMap(userList);
+
 		String bumon = null;
-		String filePath = null;
+		String exportFilePath = null;
 		BufferedWriter bw = null;
 		// 部門ごとにCSVを出力する
 		for(Entry<String, String> entry :bumonMap.entrySet()){
 			bumon = entry.getValue();
-			filePath = fileRootPath + bumon + nowDate() + ".csv";
+			exportFilePath = fileRootPath + bumon + nowDateStr() + ".csv";
 			try {
-				bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(new File(filePath)), "Windows-31J"));
+				bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(new File(exportFilePath)), "Windows-31J"));
 				for(User user:userList){
 					if(user.getBumon().equals(bumon)){
 						bw.write(user.getUserId() + "," + user.getBumon() + "," + user.getUserName() + "," + user.getSex());
@@ -104,19 +103,31 @@ public class UserService {
 	}
 
 	/*
+	 * Userの部門一覧を返却する
+	 */
+	private HashMap<String, String> createBumonMap(List<User> userList){
+		HashMap<String, String> bumonMap = new HashMap<String, String>();
+		// 部門を抽出する
+		for(User user:userList){
+			bumonMap.put(user.getBumon(), user.getBumon());
+		}
+		return bumonMap;
+	}
+
+	/*
 	 * file をバックアップする
 	 */
 	public void renameFile(String fromFilePath) {
 		File toFile = new File(fromFilePath);
 
-		String toFilePath = fromFilePath + "." + nowDate();
+		String toFilePath = fromFilePath + "." + nowDateStr();
 		toFile.renameTo(new File(toFilePath));
 	}
 
 	/*
 	 * 現在日付を返却出力する
 	 */
-	private String nowDate(){
+	private String nowDateStr(){
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
 		 return sdf.format(new Date());
 	}
